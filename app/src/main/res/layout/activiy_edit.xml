@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".EditActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:id="@+id/app_toolbar"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="35dp"
+            android:layout_centerInParent="true"
+            android:gravity="center|left"
+            android:text="@string/register"
+            android:textSize="20dp"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:text="Cancel" />
+
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_above="@id/linearLayout"
+        android:layout_below="@id/app_toolbar"
+        android:fillViewport="true"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_margin="15dp"
+                android:padding="15dp"
+                android:textAlignment="center"
+                android:text="  제목  "
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/writer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title"
+                android:layout_margin="15dp"
+                android:padding="15dp"
+                android:textAlignment="center"
+                android:text="작성자"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/writer"
+                android:layout_margin="15dp"
+                android:padding="15dp"
+                android:textAlignment="center"
+                android:text="  내용  "
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/title"
+                android:layout_margin="15dp"
+                android:hint="제목을 입력해주세요."
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/etWriter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etTitle"
+                android:layout_toRightOf="@+id/writer"
+                android:layout_margin="15dp"
+                android:hint="이름을 입력해주세요."
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/etText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etWriter"
+                android:layout_toRightOf="@+id/text"
+                android:layout_margin="15dp"
+                android:paddingBottom="450dp"
+                android:hint="내용을 입력해주세요."
+                android:inputType="text" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

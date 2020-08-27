@@ -1,0 +1,123 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/app_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="35dp"
+            android:layout_centerInParent="true"
+            android:gravity="center|left"
+            android:text="@string/action_settings"
+            android:textSize="20dp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/app_toolbar">
+
+        <TextView
+            android:id="@+id/notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="알림"
+            android:textAlignment="center"
+            android:textColor="#000080" />
+
+        <TextView
+            android:id="@+id/push"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/notice"
+            android:layout_marginLeft="15dp"
+            android:text="푸시 알림"
+            android:textAlignment="center"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/pushtext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/push"
+            android:layout_marginLeft="15dp"
+            android:text="FCM 수신시 알림을 표시하지 않습니다."
+            android:textAlignment="center"
+            android:textColor="#BDBDBD"
+            android:textSize="15dp" />
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingTop="60dp"
+            android:paddingEnd="10dp"
+            android:theme="@style/SwitchColor"/>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/pushtext"
+            android:layout_marginTop="25dp"
+            android:background="#BDBDBD" />
+
+        <TextView
+            android:id="@+id/data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view"
+            android:layout_margin="15dp"
+            android:text="데이터"
+            android:textAlignment="center"
+            android:textColor="#000080" />
+
+        <TextView
+            android:id="@+id/totalmemo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/data"
+            android:layout_marginLeft="15dp"
+            android:text="총 메모 개수 : "
+            android:textAlignment="center"
+            android:textSize="18dp" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/totalmemo"
+            android:layout_marginTop="25dp"
+            android:background="#BDBDBD" />
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view2"
+            android:layout_margin="15dp"
+            android:text="앱정보"
+            android:textAlignment="center"
+            android:textColor="#000080" />
+
+        <TextView
+            android:id="@+id/ver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/info"
+            android:layout_marginLeft="15dp"
+            android:text="버전 : 1.0"
+            android:textAlignment="center"
+            android:textSize="18dp" />
+    </RelativeLayout>
+
+</RelativeLayout>
