@@ -1,5 +1,6 @@
 package com.example.basic_app;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -11,7 +12,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceScreen;
+
+import com.example.basic_app.DB.DBHelper;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -43,7 +48,21 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             }
         });
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.container, new SettingsFragment())
+//                .commit();
     }
+//    public static class SettingsFragment extends PreferenceFragmentCompat {
+//        @Override
+//        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+//            setPreferencesFromResource(R.xml.root_preferences, rootKey);
+//            PreferenceScreen preferenceScreen = getPreferenceScreen();
+//            Preference totalCount = preferenceScreen.findPreference("total_data_count");
+//            if (totalCount != null && getActivity() != null) {
+//                totalCount.setTitle(String.format("총 메모 개수 : %s개", DBHelper.getInstance(getActivity()).getTotalCount()));
+//            }
+//        }
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

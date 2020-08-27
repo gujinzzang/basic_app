@@ -1,39 +1,28 @@
 package com.example.basic_app;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.example.basic_app.DB.DatabaseAccess;
-
+import com.example.basic_app.DB.DBHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-
 import androidx.appcompat.widget.Toolbar;
-
-import java.util.List;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
-    private ListView listView;
-    private Button btnAdd;
-    private DatabaseAccess databaseAccess;
-    private List<Memo> memos;
+    private RecyclerView rvMemo;
+    private TextView tvEmpty;
+    public Activity mActivity;
 
     DrawerLayout mDrawerLayout;
     Toolbar toolbar;
@@ -41,10 +30,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mActivity = this;
         setContentView(R.layout.activity_navi);
-
-        this.databaseAccess = DatabaseAccess.getInstance(this);
-        this.listView = (ListView) findViewById(R.id.listView);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_layout);
         setSupportActionBar(toolbar);
@@ -52,38 +39,28 @@ public class MainActivity extends AppCompatActivity {
         //actionBar.setDisplayShowTitleEnabled(false); // 기존 title 지우기
         //actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼 만들기
         //actionBar.setHomeAsUpIndicator(R.drawable.btn_menu); //뒤로가기 버튼 이미지 지정
+        rvMemo = findViewById(R.id.rv_memo);
+        tvEmpty = findViewById(R.id.tv_empty);
 
         Drawer();
         FloatingActionButton fab = findViewById(R.id.fab);
         ImageButton setbtn = findViewById(R.id.btn_set);
         ImageButton menubtn = findViewById(R.id.btn_menu);
-        TextView emptytext = findViewById(R.id.none);
 
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                //onAddClicked();
+//                //Intent intent=new Intent(MainActivity.this,RegisterActivity.class);
+//                //startActivity(intent);
+//            }
+//        });
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                onAddClicked();
-                //Intent intent=new Intent(MainActivity.this,RegisterActivity.class);
-                //startActivity(intent);
+            public void onClick(View v) {
+                startActivity(new Intent(mActivity, MemoAddActivity.class));
             }
         });
-
-        this.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Memo memo = memos.get(position);
-                TextView txtMemo = (TextView) view.findViewById(R.id.txtMemo);
-                if (memo.isFullDisplayed()) {
-                    txtMemo.setText(memo.getShortText());
-                    memo.setFullDisplayed(false);
-                } else {
-                    txtMemo.setText(memo.getText());
-                    memo.setFullDisplayed(true);
-                }
-            }
-        });
-
-        listView.setEmptyView(findViewById(R.id.none));
 
         setbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,74 +112,54 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    private MemoAdapter memoAdapter;
+    public void refreshList() {
+        if (memoAdapter == null) {
+            memoAdapter = new MemoAdapter(this);
+            rvMemo.setAdapter(memoAdapter);
+        }
+        memoAdapter.setItems(DBHelper.getInstance(this).getMemos());
+        tvEmpty.setVisibility(memoAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        databaseAccess.open();
-        this.memos = databaseAccess.getAllMemos();
-        databaseAccess.close();
-        MemoAdapter adapter = new MemoAdapter(this, memos);
-        this.listView.setAdapter(adapter);
+        refreshList();
     }
 
-    public void onAddClicked() {
-        Intent intent = new Intent(this, EditActivity.class);
-        startActivity(intent);
-    }
+//    public void onAddClicked() {
+//        Intent intent = new Intent(this, MemoAddActivity.class);
+//        startActivity(intent);
+//    }
 
-    public void onDeleteClicked(Memo memo) {
-        databaseAccess.open();
-        databaseAccess.delete(memo);
-        databaseAccess.close();
+//    TextView tvTitle = findViewById(R.id.txtMemo);
+//    TextView tvTime = findViewById(R.id.txtDate);
+//    TextView tvName = findViewById(R.id.txtMemo2);
+//    ImageView ivContents = findViewById(R.id.iv_contents);
+//    TextView tvContents = findViewById(R.id.tv_contents);
 
-        ArrayAdapter<Memo> adapter = (ArrayAdapter<Memo>) listView.getAdapter();
-        adapter.remove(memo);
-        adapter.notifyDataSetChanged();
-    }
-
-    public void onEditClicked(Memo memo) {
-        Intent intent = new Intent(this, EditActivity.class);
-        intent.putExtra("MEMO", memo);
-        startActivity(intent);
-    }
-
-    private class MemoAdapter extends ArrayAdapter<Memo> {
-
-
-        public MemoAdapter(Context context, List<Memo> objects) {
-            super(context, 0, objects);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = getLayoutInflater().inflate(R.layout.layout_list_item, parent, false);
-            }
-
-            ImageView btnEdit = (ImageView) convertView.findViewById(R.id.btnEdit);
-            ImageView btnDelete = (ImageView) convertView.findViewById(R.id.btnDelete);
-            TextView txtDate = (TextView) convertView.findViewById(R.id.txtDate);
-            TextView txtMemo = (TextView) convertView.findViewById(R.id.txtMemo);
-            TextView txtMemo2 = (TextView) convertView.findViewById(R.id.txtMemo2);
-
-            final Memo memo = memos.get(position);
-            memo.setFullDisplayed(false);
-            txtDate.setText(memo.getDate());
-            txtMemo.setText(memo.getShortText());
-            txtMemo2.setText(memo.getShortText());
-            btnEdit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onEditClicked(memo);
-                }
-            });
-            btnDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onDeleteClicked(memo);
-                }
-            });
-            return convertView;
-        }
-    }
+//    Intent intent = getIntent();
+//        if (intent != null) {
+//        Memo memo = (Memo) intent.getSerializableExtra("memo");
+//
+//        if (memo != null) {
+//            Log.i("FAS", "메모: " + memo.toString());
+//
+//            tvTitle.setText(memo.title);
+//            tvTime.setText(memo.getTime());
+//            tvName.setText(memo.name);
+//            tvContents.setText(memo.contents);
+//
+//            Glide.with(this)
+//                    .asBitmap()
+//                    .load(memo.imageUrl) // 이미지 URL
+//                    .apply(new RequestOptions()
+//                            .priority(Priority.HIGH)
+//                            .fitCenter()
+//                            .error(R.mipmap.ic_launcher)
+//                            .fallback(R.mipmap.ic_launcher))
+//                    .into(ivContents);
+//        }
+//    }
 }

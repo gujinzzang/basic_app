@@ -119,5 +119,4 @@
             android:textAlignment="center"
             android:textSize="18dp" />
     </RelativeLayout>
-
 </RelativeLayout>

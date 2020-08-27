@@ -4,12 +4,17 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import com.example.basic_app.DB.DatabaseAccess;
+import android.widget.Toast;
+
+import com.example.basic_app.DB.DBHelper;
 
 public class EditActivity extends AppCompatActivity {
 
@@ -23,11 +28,11 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activiy_edit);
 
-        this.etTitle = (EditText) findViewById(R.id.etTitle);
-        this.etWriter = (EditText) findViewById(R.id.etWriter);
-        this.etText = (EditText) findViewById(R.id.etText);
-        this.btnSave = (Button) findViewById(R.id.btnSave);
-        this.btnCancel = (Button) findViewById(R.id.btnCancel);
+        etTitle = findViewById(R.id.etTitle);
+        etWriter = findViewById(R.id.etWriter);
+        etText = findViewById(R.id.etText);
+        Button btnSave = findViewById(R.id.btnSave);
+        btnCancel = findViewById(R.id.btnCancel);
 
         Toolbar toolbar = findViewById(R.id.app_toolbar);
         setSupportActionBar(toolbar);
@@ -35,42 +40,45 @@ public class EditActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false); // 기존 title 지우기
         actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼 만들기
 
-        Bundle bundle = getIntent().getExtras();
-        if(bundle != null) {
-            memo = (Memo) bundle.get("MEMO");
-            if(memo != null) {
-                this.etTitle.setText(memo.getText());
+        Intent intent = getIntent();
+        if (intent != null) {
+            memo = (Memo) intent.getSerializableExtra("memo");
+
+            if (memo != null) {
+                Log.i("FAS", "메모: " + memo.toString());
+
+                etTitle.setText(memo.title);
+                etWriter.setText(memo.name);
+                etText.setText(memo.contents);
             }
         }
-
-        this.btnSave.setOnClickListener(new View.OnClickListener() {
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onSaveClicked();
+                String title = etTitle.getText().toString();
+                String name = etWriter.getText().toString();
+                String contents = etText.getText().toString();
+
+                if (TextUtils.isEmpty(title) || TextUtils.isEmpty(name) || TextUtils.isEmpty(contents)) {
+                    Toast.makeText(v.getContext(), "내용을 입력하세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                memo.title = title;
+                memo.contents = contents;
+                memo.name = name;
+
+                DBHelper.getInstance(v.getContext()).updateMemo(memo);
+                finish();
             }
         });
-        this.btnCancel.setOnClickListener(new View.OnClickListener() {
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onCancelClicked();
             }
         });
-    }
-    public void onSaveClicked() {
-        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(this);
-        databaseAccess.open();
-        if(memo == null) {
-            // Add new memo
-            Memo temp = new Memo();
-            temp.setText(etTitle.getText().toString());
-            databaseAccess.save(temp);
-        } else {
-            // Update the memo
-            memo.setText(etTitle.getText().toString());
-            databaseAccess.update(memo);
-        }
-        databaseAccess.close();
-        this.finish();
     }
 
     public void onCancelClicked() {
