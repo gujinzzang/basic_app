@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="#74BBFB"
+        app:backgroundTint="#964B00"
         android:src="@drawable/btn_plus"/>
 
     <androidx.recyclerview.widget.RecyclerView

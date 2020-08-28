@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#74BBFB</item>
-        <item name="colorPrimaryDark">#74BBFB</item>
+        <item name="colorPrimary">#964B00</item>
+        <item name="colorPrimaryDark">#964B00</item>
         <item name="colorAccent">#FFFFFF</item>
     </style>
 
@@ -14,7 +14,7 @@
 
     <style name="SwitchColor" parent="Theme.AppCompat.Light">
         <!-- active thumb & track color (30% transparency) -->
-        <item name="colorControlActivated">#74BBFB</item>
+        <item name="colorControlActivated">#964B00</item>
 
         <!-- inactive thumb color -->
         <item name="colorSwitchThumbNormal">#f1f1f1

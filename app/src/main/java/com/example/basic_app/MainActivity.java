@@ -3,14 +3,16 @@ package com.example.basic_app;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.basic_app.DB.DBHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView rvMemo;
@@ -47,14 +50,6 @@ public class MainActivity extends AppCompatActivity {
         ImageButton setbtn = findViewById(R.id.btn_set);
         ImageButton menubtn = findViewById(R.id.btn_menu);
 
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //onAddClicked();
-//                //Intent intent=new Intent(MainActivity.this,RegisterActivity.class);
-//                //startActivity(intent);
-//            }
-//        });
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +106,18 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        View header = navigationView.getHeaderView(0);
+        CircleImageView ivUser = header.findViewById(R.id.imageView);
+        Glide.with(this)
+                .asBitmap()
+                .load(Memo.userimgurl)
+                .apply(new RequestOptions()
+                        .priority(Priority.HIGH)
+                        .centerCrop()
+                        .error(R.drawable.android)
+                        .fallback(R.drawable.android))
+                .into(ivUser);
     }
     private MemoAdapter memoAdapter;
     public void refreshList() {
@@ -127,39 +134,4 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         refreshList();
     }
-
-//    public void onAddClicked() {
-//        Intent intent = new Intent(this, MemoAddActivity.class);
-//        startActivity(intent);
-//    }
-
-//    TextView tvTitle = findViewById(R.id.txtMemo);
-//    TextView tvTime = findViewById(R.id.txtDate);
-//    TextView tvName = findViewById(R.id.txtMemo2);
-//    ImageView ivContents = findViewById(R.id.iv_contents);
-//    TextView tvContents = findViewById(R.id.tv_contents);
-
-//    Intent intent = getIntent();
-//        if (intent != null) {
-//        Memo memo = (Memo) intent.getSerializableExtra("memo");
-//
-//        if (memo != null) {
-//            Log.i("FAS", "메모: " + memo.toString());
-//
-//            tvTitle.setText(memo.title);
-//            tvTime.setText(memo.getTime());
-//            tvName.setText(memo.name);
-//            tvContents.setText(memo.contents);
-//
-//            Glide.with(this)
-//                    .asBitmap()
-//                    .load(memo.imageUrl) // 이미지 URL
-//                    .apply(new RequestOptions()
-//                            .priority(Priority.HIGH)
-//                            .fitCenter()
-//                            .error(R.mipmap.ic_launcher)
-//                            .fallback(R.mipmap.ic_launcher))
-//                    .into(ivContents);
-//        }
-//    }
 }

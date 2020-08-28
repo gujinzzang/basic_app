@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".EditActivity">
+    tools:context=".MemoEditActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:theme="@style/AppTheme.AppBarOverlay"
@@ -114,13 +114,15 @@
             <EditText
                 android:id="@+id/etText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_below="@+id/etWriter"
                 android:layout_toRightOf="@+id/text"
                 android:layout_margin="15dp"
-                android:paddingBottom="450dp"
+                android:lines="10"
+                android:gravity="top"
+                tools:text="줄\n바꿈"
                 android:hint="내용을 입력해주세요."
-                android:inputType="text" />
+                android:inputType="textMultiLine" />
 
         </RelativeLayout>
     </ScrollView>

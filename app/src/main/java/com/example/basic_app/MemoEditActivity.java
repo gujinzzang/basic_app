@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.basic_app.DB.DBHelper;
 
-public class EditActivity extends AppCompatActivity {
+public class MemoEditActivity extends AppCompatActivity {
 
     private EditText etTitle, etWriter, etText;
     private Button btnSave;
@@ -32,7 +32,7 @@ public class EditActivity extends AppCompatActivity {
         etWriter = findViewById(R.id.etWriter);
         etText = findViewById(R.id.etText);
         Button btnSave = findViewById(R.id.btnSave);
-        btnCancel = findViewById(R.id.btnCancel);
+        Button btnCancel = findViewById(R.id.btnCancel);
 
         Toolbar toolbar = findViewById(R.id.app_toolbar);
         setSupportActionBar(toolbar);

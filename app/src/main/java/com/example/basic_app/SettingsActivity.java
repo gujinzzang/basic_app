@@ -1,22 +1,14 @@
 package com.example.basic_app;
 
-import android.app.Activity;
-import android.app.NotificationManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceScreen;
-
-import com.example.basic_app.DB.DBHelper;
 
 public class SettingsActivity extends AppCompatActivity {
 

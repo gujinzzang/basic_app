@@ -14,12 +14,14 @@ public class Memo implements Serializable {
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.KOREA);
     private static final ArrayList<String> IMAGE_URLS = new ArrayList<String>() {
         {
-            add("https://ww.namu.la/s/aeca2e14dbb78281beabffe6d5a8b1a84233da4aa2d7b857f11baa8530908b4faf2dae5ce55389c73821b2235cfa3c4d9744bb30d3edc6efda4a446164481c78fa96810116fac66e3f48349bd6ae2041434324fd2d713a12be8a89ff3c2029e590df43e574571827b946a7db8fb0ed06");
-            add("https://img4.yna.co.kr/photo/cms/2019/05/02/02/PCM20190502000402370_P2.jpg");
-            add("https://ppss.kr/wp-content/uploads/2015/07/16.jpg");
-            add("https://www.nemopan.com/files/attach/images/6294/936/797/010/90bc7ddfa68f41c5da0ff4016af5fff9.jpg");
+            add("https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F99391E395AB083A906");
+            add("https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile24.uf.tistory.com%2Fimage%2F9984A4425E68B3C025D35E");
+            add("http://theviewers.co.kr/Files/30/News/201912/1954_20191220102638897.JPG");
+            add("https://file3.instiz.net/data/file3/2018/01/31/3/7/9/379f6ddda72b634b23a567a4b2217103.jpg");
         }
     };
+    public static final String userimgurl = "https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Ft1.daumcdn.net%2Fcfile%2Ftistory%2F99391E395AB083A906";
+
 
     public static String generateImageUrl() {
         int index = new Random().nextInt(IMAGE_URLS.size() - 1);

@@ -10,6 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.basic_app.DB.DBHelper;
 import java.util.ArrayList;
 
@@ -36,6 +40,16 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
         holder.tvTitle.setText(item.title);
         holder.tvTime.setText(item.getTime());
         holder.tvName.setText(item.name);
+
+        Glide.with(holder.itemView)
+                .asBitmap()
+                .load(item.imageUrl) // 이미지 URL
+                .apply(new RequestOptions()
+                        .priority(Priority.HIGH)
+                        .fitCenter()
+                        .error(R.drawable.android)
+                        .fallback(R.drawable.android))
+                .into(holder.ivMemo);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +90,7 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
     private void edit(final Memo memo){
-        mActivity.startActivity(new Intent(mActivity, EditActivity.class).putExtra("memo", memo));;
+        mActivity.startActivity(new Intent(mActivity, MemoEditActivity.class).putExtra("memo", memo));;
     }
     private void delete(final Memo memo){
         DBHelper.getInstance(mActivity).deleteMemo(memo);
@@ -89,7 +103,7 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
-                            mActivity.startActivity(new Intent(mActivity, EditActivity.class)
+                            mActivity.startActivity(new Intent(mActivity, MemoEditActivity.class)
                                     .putExtra("memo", memo));
                         } else {
                             showDeletePopup(memo);
@@ -115,7 +129,7 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-      //  ImageView ivMemo;
+        ImageView ivMemo;
         TextView tvTitle;
         TextView tvTime;
         TextView tvName;
@@ -124,7 +138,7 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoAdapter.ViewHolder> {
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-         //   ivMemo = itemView.findViewById(R.id.etWriter);
+            ivMemo = itemView.findViewById(R.id.iv_contents);
             tvTitle = itemView.findViewById(R.id.txtMemo);
             tvTime = itemView.findViewById(R.id.txtDate);
             tvName = itemView.findViewById(R.id.txtMemo2);
