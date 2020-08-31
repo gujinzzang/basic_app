@@ -3,9 +3,15 @@ package com.example.basic_app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.basic_app.util.KSJLog;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 public class IntroActivity extends AppCompatActivity {
     @Override
@@ -27,6 +33,14 @@ public class IntroActivity extends AppCompatActivity {
             }
         },2000);
 
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                Log.d("KSJ", "fcmToken: " + instanceIdResult.getToken());
+                KSJLog.d("fcmToken: " + instanceIdResult.getToken());
+            }
+        });
     }
 
     @Override
