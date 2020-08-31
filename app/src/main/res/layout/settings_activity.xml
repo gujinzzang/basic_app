@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/app_toolbar"
@@ -119,4 +120,12 @@
             android:textAlignment="center"
             android:textSize="18dp" />
     </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_below="@id/app_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
 </RelativeLayout>

@@ -1,5 +1,8 @@
 package com.example.basic_app;
 
+import android.app.Activity;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
@@ -10,12 +13,18 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.basic_app.DB.DBHelper;
+import com.google.firebase.messaging.RemoteMessage;
+
 public class SettingsActivity extends AppCompatActivity {
+
+    private Activity mActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
+        mActivity = this;
 
         Toolbar toolbar = findViewById(R.id.app_toolbar);
         setSupportActionBar(toolbar);
@@ -31,31 +40,17 @@ public class SettingsActivity extends AppCompatActivity {
                 if (isChecked) {
                     Toast.makeText(getApplicationContext(), "Push 활성화", Toast.LENGTH_SHORT).show();
                     textView.setText("FCM 수신시 알림을 표시합니다.");
-                    //((FirebaseInstanceIDService)FirebaseInstanceIDService.context).onNewToken("True");
                 } else {
                     Toast.makeText(getApplicationContext(), "Push 비활성화", Toast.LENGTH_SHORT).show();
                     textView.setText("FCM 수신시 알림을 표시하지 않습니다.");
-                   // ((FirebaseInstanceIDService)FirebaseInstanceIDService.context).onNewToken("False");
-
+                    NotificationManager notificationManager= (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+                    notificationManager.cancel(0);
                 }
             }
         });
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.container, new SettingsFragment())
-//                .commit();
+        TextView totaltext = findViewById(R.id.totalmemo);
+        totaltext.append(String.format("%s개", DBHelper.getInstance(this).getTotalCount()));
     }
-//    public static class SettingsFragment extends PreferenceFragmentCompat {
-//        @Override
-//        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-//            setPreferencesFromResource(R.xml.root_preferences, rootKey);
-//            PreferenceScreen preferenceScreen = getPreferenceScreen();
-//            Preference totalCount = preferenceScreen.findPreference("total_data_count");
-//            if (totalCount != null && getActivity() != null) {
-//                totalCount.setTitle(String.format("총 메모 개수 : %s개", DBHelper.getInstance(getActivity()).getTotalCount()));
-//            }
-//        }
-//    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
